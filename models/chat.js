@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
-const cours = require("./cours");
 
 const chatSchema = new mongoose.Schema({
-    chat: {type: string, required: false},
+    chat: {type: String, required: true},
    
     
 });

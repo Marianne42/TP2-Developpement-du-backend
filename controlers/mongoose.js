@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-//const Produit = require("./models/produit")
+const Chat = require("../models/chat")
 
 mongoose.connect("mongodb+srv://marianne24:8uqUZmDexDfxRv4l@ecolemarianneaspeck.j3vqq6t.mongodb.net/?retryWrites=true&w=majority"
 ).then(() => {
@@ -25,7 +25,7 @@ const creerProfesseur = async (requete, reponse, next) =>{
 }
 
 const creerChat = async (requete, reponse, next) =>{
-    const nouveauChat = new chat({
+    const nouveauChat = new Chat({
         chat: requete.body.chat
     });
 
@@ -43,12 +43,12 @@ const getProfesseur = async (requete, reponse, next) =>{
 
 const getChat= async (requete, reponse, next) =>{
 
-    const chats = await chat.find().exec();
+    const chats = await Chat.find().exec();
 
     reponse.json(chats);
 }
 
 exports.creerChat = creerChat;
 exports.getChat = getChat;
-exports.creerProfesseur = creerProfesseur;
-exports.getProfesseur = getProfesseur;
+//exports.creerProfesseur = creerProfesseur;
+//exports.getProfesseur = getProfesseur;
