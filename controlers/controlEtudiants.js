@@ -71,5 +71,7 @@ const updateEtudiant = async (requete, reponse, next) => {
     reponse.status(200).json({ message: "Etudiant supprimée" });
   };
 
-exports.creerEtudiant = creerEtudiant;
-exports.getEtudiant = getEtudiant;
+  exports.creerEtudiant = creerEtudiant;
+  exports.getEtudiant = getEtudiant;
+  exports.supprimerEtudiant = supprimerEtudiant;
+  exports.updateEtudiant = updateEtudiant;

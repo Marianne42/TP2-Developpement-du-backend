@@ -74,3 +74,8 @@ const updateCours = async (requete, reponse, next) => {
     }
     reponse.status(200).json({ message: "cours supprimée" });
   };
+
+exports.creerCours = creerCours;
+exports.getCours = getCours;
+exports.supprimerCours = supprimerCours;
+exports.updateCours = updateCours;
