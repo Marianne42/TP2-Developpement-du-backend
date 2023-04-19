@@ -28,49 +28,49 @@ const getCours = async (requete, reponse, next) =>{
 
 const updateCours = async (requete, reponse, next) => {
     const { titre, description } = requete.body;
-    const profId = requete.params.profId;
+    const coursId = requete.params.coursId;
   
-    let professeur;
+    let cours;
   
     try {
-      professeur = await professeur.findById(profId);
-      professeur.titre = titre;
-      professeur.description = description;
-      await professeur.save();
+      cours = await cours.findById(coursId);
+      cours.titre = titre;
+      cours.description = description;
+      await cours.save();
     } catch {
       return next(
-        new HttpErreur("Erreur lors de la mise à jour du professeur", 500)
+        new HttpErreur("Erreur lors de la mise à jour du cours", 500)
       );
     }
   
-    reponse.status(200).json({ professeur: professeur.toObject({ getters: true }) });
+    reponse.status(200).json({ cours: cours.toObject({ getters: true }) });
   };
 
   const supprimerCours = async (requete, reponse, next) => {
-    const profId = requete.params.profId;
-    let professeur;
+    const coursId = requete.params.coursId;
+    let cours;
     try {
-        professeur = await Professeur.findById(profId).populate("createur");
+        cours = await Cours.findById(coursId).populate("createur");
     } catch {
       return next(
-        new HttpErreur("Erreur lors de la suppression du professeur", 500)
+        new HttpErreur("Erreur lors de la suppression du cours", 500)
       );
     }
-    if(!professeur){
-      return next(new HttpErreur("Impossible de trouver le professeur", 404));
+    if(!cours){
+      return next(new HttpErreur("Impossible de trouver le cours", 404));
     }
   
     try{
   
       
-      await professeur.remove();
-      professeur.createur.professeur.pull(professeur);
-      await professeur.createur.save()
+      await cours.remove();
+      cours.createur.cours.pull(cours);
+      await cours.createur.save()
   
     }catch{
       return next(
-        new HttpErreur("Erreur lors de la suppression du professeur", 500)
+        new HttpErreur("Erreur lors de la suppression du cours", 500)
       );
     }
-    reponse.status(200).json({ message: "Professeur supprimée" });
+    reponse.status(200).json({ message: "cours supprimée" });
   };
