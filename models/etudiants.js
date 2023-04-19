@@ -6,7 +6,7 @@ const etudiantsSchema = new mongoose.Schema({
     nom: {type: String, required: true},
     prenom: {type: String, required: true},
     numAdmission: {type: Number, required: true},
-    cours: {type: cours, required: true}
+    cours: [{type: String, required: false}]
     
 });
 

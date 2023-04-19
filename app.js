@@ -1,15 +1,30 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-//const mongo = require("./mongo")
-const mongoose = require("./controlers/mongoose")
+const mongoose = require("mongoose");
+const chat = require("./controlers/mongoose");
+
+const RouteProfesseurs = require('./routes/professeurs-routes')
+
 
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.post('/chat', mongoose.creerChat);
+app.post(RouteProfesseurs)
 
-app.get('/chat', mongoose.getChat);
+app.get(RouteProfesseurs)
 
-app.listen(5001);
+app.post('/chat', chat.creerChat);
+
+app.get('/chat', chat.getChat);
+
+
+
+mongoose.connect("mongodb://127.0.0.1:27017"
+).then(() => {
+    app.listen(5001);
+    console.log("Connexion à la base de données réussie")
+}).catch(() =>{
+    console.log("Erreur lors de la connexion");
+});

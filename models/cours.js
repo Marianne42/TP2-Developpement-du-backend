@@ -8,7 +8,8 @@ const coursSchema = new mongoose.Schema({
     nbrMaxEtudiants: {type: Number, required: true},
     dateDebut: {type: Date, required: true},
     dateFin: {type: Date, required: true},
-    professeur: {type: professeurs, required: true}
+    professeur: {type: String, required: true},
+    listeEtudiants: [{type: String, required: false}]
 });
 
 module.exports = mongoose.model("cours", coursSchema);
