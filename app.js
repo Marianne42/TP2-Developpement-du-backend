@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
-const chat = require("./controlers/mongoose");
 
 const RouteProfesseurs = require('./routes/professeurs-routes')
 
@@ -15,9 +14,6 @@ app.post(RouteProfesseurs)
 
 app.get(RouteProfesseurs)
 
-app.post('/chat', chat.creerChat);
-
-app.get('/chat', chat.getChat);
 
 
 
