@@ -75,3 +75,5 @@ const updateProfesseur = async (requete, reponse, next) => {
 
 exports.creerProfesseur = creerProfesseur;
 exports.getProfesseur = getProfesseur;
+exports.supprimerProfesseur = supprimerProfesseur;
+exports.updateProfesseur = updateProfesseur;
