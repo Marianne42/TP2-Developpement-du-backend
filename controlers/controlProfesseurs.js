@@ -62,7 +62,7 @@ const updateProfesseur = async (requete, reponse, next) => {
   };
 
   const supprimerProfesseur = async (requete, reponse, next) => {
-    const profId = requete.params.profId;
+    const profId = requete.params.profId;  
     let professeur;
     try {
         professeur = await Professeur.findById(profId).populate("cours");
