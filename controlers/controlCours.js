@@ -1,3 +1,4 @@
+const HttpErreur = require("../models/http-erreur");
 
 const Cours = require("../models/cours")
 
@@ -96,3 +97,4 @@ exports.creerCours = creerCours;
 exports.getCours = getCours;
 exports.supprimerCours = supprimerCours;
 exports.updateCours = updateCours;
+exports.getCoursById = getCoursById;

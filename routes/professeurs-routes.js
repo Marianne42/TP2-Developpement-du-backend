@@ -7,4 +7,6 @@ router.post('/professeurs', controleursProfesseurs.creerProfesseur)
 
 router.get('/professeurs', controleursProfesseurs.getProfesseur)
 
+router.get('/profId', controleursProfesseurs.getProfesseurById)
+
 module.exports = router;

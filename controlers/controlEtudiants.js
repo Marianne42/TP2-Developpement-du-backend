@@ -1,3 +1,5 @@
+const HttpErreur = require("../models/http-erreur");
+
 const Etudiant = require("../models/etudiants")
 
 
@@ -92,3 +94,4 @@ const updateEtudiant = async (requete, reponse, next) => {
   exports.getEtudiant = getEtudiant;
   exports.supprimerEtudiant = supprimerEtudiant;
   exports.updateEtudiant = updateEtudiant;
+  exports.getEtudiantById = getEtudiantById;
