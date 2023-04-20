@@ -1,6 +1,23 @@
 
 const Cours = require("../models/cours")
 
+const getCoursById = async (requete, reponse, next) => {
+  const coursId = requete.params.coursId;
+  let cours;
+  try {
+    cours = await Cours.findById(coursId);
+  } catch (err) {
+    return next(
+      new HttpErreur("Erreur lors de la récupération du cours", 500)
+    );
+  }
+  if (!cours) {
+    return next(new HttpErreur("Aucun cours trouvée pour l'id fourni", 404));
+  }
+  reponse.json({ cours: cours.toObject({ getters: true }) });
+};
+
+
 const creerCours = async (requete, reponse, next) =>{
     const nouveauCours = new Cours({
         id: requete.body.id,

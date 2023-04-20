@@ -1,6 +1,22 @@
 
 const Professeur = require("../models/professeurs")
 
+const getProfesseurById = async (requete, reponse, next) => {
+  const profId = requete.params.profId;
+  let professeur;
+  try {
+    professeur = await Etudiant.findById(profId);
+  } catch (err) {
+    return next(
+      new HttpErreur("Erreur lors de la récupération du professeur", 500)
+    );
+  }
+  if (!professeur) {
+    return next(new HttpErreur("Aucun professeur trouvée pour l'id fourni", 404));
+  }
+  reponse.json({ professeur: professeur.toObject({ getters: true }) });
+};
+
 const creerProfesseur = async (requete, reponse, next) =>{
     const nouveauProfesseur = new Professeur({
         id: requete.body.id,
@@ -48,7 +64,7 @@ const updateProfesseur = async (requete, reponse, next) => {
     const profId = requete.params.profId;
     let professeur;
     try {
-        professeur = await Professeur.findById(profId).populate("createur");
+        professeur = await Professeur.findById(profId).populate("cours");
     } catch {
       return next(
         new HttpErreur("Erreur lors de la suppression du professeur", 500)
@@ -62,8 +78,8 @@ const updateProfesseur = async (requete, reponse, next) => {
   
       
       await professeur.remove();
-      professeur.createur.professeur.pull(professeur);
-      await professeur.createur.save()
+      professeur.cours.professeur.pull(professeur);
+      await professeur.cours.save()
   
     }catch{
       return next(

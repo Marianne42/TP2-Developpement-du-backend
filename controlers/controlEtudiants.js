@@ -1,5 +1,22 @@
 const Etudiant = require("../models/etudiants")
 
+
+const getEtudiantById = async (requete, reponse, next) => {
+  const etudiantId = requete.params.etudiantId;
+  let etudiant;
+  try {
+    etudiant = await Etudiant.findById(etudiantId);
+  } catch (err) {
+    return next(
+      new HttpErreur("Erreur lors de la récupération de l'etudiant", 500)
+    );
+  }
+  if (!etudiant) {
+    return next(new HttpErreur("Aucun etudiant trouvée pour l'id fourni", 404));
+  }
+  reponse.json({ etudiant: etudiant.toObject({ getters: true }) });
+};
+
 const creerEtudiant = async (requete, reponse, next) =>{
     const nouveauEtudiant = new Etudiant({
         id: requete.body.id,
