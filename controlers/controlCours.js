@@ -4,7 +4,7 @@ const Cours = require("../models/cours")
 const Professeur = require("../models/professeurs")
 
 const getCoursById = async (requete, reponse, next) => {
-  const coursId = requete.body.coursId;
+  const coursId = requete.params.coursId;
   let cours;
   try {
     cours = await Cours.findById(coursId);
