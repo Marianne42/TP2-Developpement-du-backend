@@ -6,7 +6,7 @@ const getProfesseurById = async (requete, reponse, next) => {
   const profId = requete.params.profId;
   let professeur;
   try {
-    professeur = await Etudiant.findById(profId);
+    professeur = await Professeur.findById(profId);
   } catch (err) {
     return next(
       new HttpErreur("Erreur lors de la récupération du professeur", 500)
@@ -42,15 +42,15 @@ const getProfesseur = async (requete, reponse, next) =>{
 }
 
 const updateProfesseur = async (requete, reponse, next) => {
-    const { titre, description } = requete.body;
-    const profId = requete.params.profId;
+    const { nom, prenom } = requete.body;
+    const profId = requete.body.profId;
   
     let professeur;
   
     try {
-      professeur = await professeur.findById(profId);
-      professeur.titre = titre;
-      professeur.description = description;
+      professeur = await Professeur.findById(profId);
+      professeur.nom = nom;
+      professeur.prenom = prenom;
       await professeur.save();
     } catch {
       return next(
@@ -62,13 +62,13 @@ const updateProfesseur = async (requete, reponse, next) => {
   };
 
   const supprimerProfesseur = async (requete, reponse, next) => {
-    const profId = requete.params.profId;  
+    const profId = requete.body.profId; 
     let professeur;
     try {
         professeur = await Professeur.findById(profId).populate("cours");
     } catch {
       return next(
-        new HttpErreur("Erreur lors de la suppression du professeur", 500)
+        new HttpErreur("Erreur lors de la recherche du professeur a supprimer", 500)
       );
     }
     if(!professeur){
@@ -76,11 +76,8 @@ const updateProfesseur = async (requete, reponse, next) => {
     }
   
     try{
-  
       
       await professeur.remove();
-      professeur.cours.professeur.pull(professeur);
-      await professeur.cours.save()
   
     }catch{
       return next(
