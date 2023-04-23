@@ -1,6 +1,8 @@
 const HttpErreur = require("../models/http-erreur");
 
-const Etudiant = require("../models/etudiants")
+const Etudiant = require("../models/etudiants");
+
+const Cours = require("../models/cours");
 
 
 const getEtudiantById = async (requete, reponse, next) => {
@@ -42,19 +44,46 @@ const getEtudiant = async (requete, reponse, next) =>{
 }
 
 const updateEtudiant = async (requete, reponse, next) => {
-    const { titre, description } = requete.body;
-    const etudiantId = requete.params.etudiantId;
+    const { nom, prenom } = requete.body;
+    const etudiantId = requete.body.etudiantId;
   
     let etudiant;
   
     try {
-      etudiant = await etudiant.findById(etudiantId);
-      etudiant.titre = titre;
-      etudiant.description = description;
+      etudiant = await Etudiant.findById(etudiantId);
+      etudiant.nom = nom;
+      etudiant.prenom = prenom;
       await etudiant.save();
     } catch {
       return next(
         new HttpErreur("Erreur lors de la mise à jour de l'etudiant", 500)
+      );
+    }
+  
+    reponse.status(200).json({ etudiant: etudiant.toObject({ getters: true }) });
+  };
+
+  const inscrireEtudiant = async (requete, reponse, next) => {
+    const { cours, etudiantId } = requete.body;
+    let etudiant;
+  
+    try {
+      etudiant = await Etudiant.findById(etudiantId);
+      etudiant.cours.push(cours);
+      await etudiant.save();
+    } catch {
+      return next(
+        new HttpErreur("Erreur lors de la mise à jour de l'etudiant", 500)
+      );
+    }
+
+    try {
+      coursInscrit = await Cours.findById(cours);
+      coursInscrit.listeEtudiants.push(etudiantId);
+      await coursInscrit.save();
+    } catch {
+      return next(
+        new HttpErreur("Erreur lors de la mise à jour du cours", 500)
       );
     }
   
@@ -95,3 +124,4 @@ const updateEtudiant = async (requete, reponse, next) => {
   exports.supprimerEtudiant = supprimerEtudiant;
   exports.updateEtudiant = updateEtudiant;
   exports.getEtudiantById = getEtudiantById;
+  exports.inscrireEtudiant = inscrireEtudiant;

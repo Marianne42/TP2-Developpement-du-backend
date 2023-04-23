@@ -1,9 +1,10 @@
 const HttpErreur = require("../models/http-erreur");
 
 const Cours = require("../models/cours")
+const Professeur = require("../models/professeurs")
 
 const getCoursById = async (requete, reponse, next) => {
-  const coursId = requete.params.coursId;
+  const coursId = requete.body.coursId;
   let cours;
   try {
     cours = await Cours.findById(coursId);
@@ -31,7 +32,18 @@ const creerCours = async (requete, reponse, next) =>{
         listeEtudiants: requete.body.listeEtudiants
     });
 
+    try {
+      professeur = await Professeur.findById(requete.body.professeur);
+      professeur.cours.push(nouveauCours._id);
+      await professeur.save();
+    } catch {
+      return next(
+        new HttpErreur("Erreur lors de la mise à jour du professeur", 500)
+      );
+    }
+
     const resultat = await nouveauCours.save();
+
 
     reponse.json(resultat);
 }
@@ -39,21 +51,21 @@ const creerCours = async (requete, reponse, next) =>{
 
 const getCours = async (requete, reponse, next) =>{
 
-    const cours = await cours.find().exec();
+    const cours = await Cours.find().exec();
 
     reponse.json(cours);
 }
 
 const updateCours = async (requete, reponse, next) => {
-    const { titre, description } = requete.body;
-    const coursId = requete.params.coursId;
+    const { titre, discipline } = requete.body;
+    const coursId = requete.body.coursId;
   
     let cours;
   
     try {
-      cours = await cours.findById(coursId);
+      cours = await Cours.findById(coursId);
       cours.titre = titre;
-      cours.description = description;
+      cours.discipline = discipline;
       await cours.save();
     } catch {
       return next(

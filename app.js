@@ -16,6 +16,10 @@ app.use(bodyParser.json());
 
 app.use("/", RouteProfesseurs)
 
+app.use("/", RouteCours)
+
+app.use("/", RouteEtudiants)
+
 app.use((requete, reponse, next) => {
     return next(new HttpErreur("Route non trouvée", 404));
   });

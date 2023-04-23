@@ -7,10 +7,12 @@ router.post('/etudiants', controleursEtudiants.creerEtudiant)
 
 router.get('/etudiants', controleursEtudiants.getEtudiant)
 
-router.get("/:etudiantId", controleursEtudiants.getEtudiantById);
+router.get('/etudiants/:etudiantId', controleursEtudiants.getEtudiantById)
 
-router.patch('/:etudiantId', controleursEtudiants.updateEtudiant);
+router.patch('/etudiants', controleursEtudiants.updateEtudiant)
 
-router.delete('/:etudiantId', controleursEtudiants.supprimerEtudiant)
+router.delete('/etudiants', controleursEtudiants.supprimerEtudiant)
+
+router.patch('/inscription', controleursEtudiants.inscrireEtudiant)
 
 module.exports = router;
